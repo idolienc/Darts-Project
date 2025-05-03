@@ -44,3 +44,22 @@
     justify-content: center;
     margin-top: 20px;
 }
+
+.flash-messages {
+    position: fixed;
+    top: 32px;
+    right: 10px;
+    width: 300px;
+    z-index: 1000;
+    color: red;
+}
+
+.flash {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #fff;
+}

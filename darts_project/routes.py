@@ -8,7 +8,7 @@ from darts_project.db import get_db
 def index():
     return render_template('index.html')
 
-@app.route('/admin', methods=('GET', 'POST'))
+@app.route('/admin/teams', methods=('GET', 'POST'))
 def admin():
     if '_flashes' in session:
         session['_flashes'].clear()
@@ -27,3 +27,5 @@ def admin():
             return redirect(url_for('index'))
         
     return render_template('admin.html')
+
+@app.route('/admin/games', methods=('GET', 'POST'))
