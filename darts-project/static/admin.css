@@ -36,5 +36,11 @@
     border-radius: 10px;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
 }

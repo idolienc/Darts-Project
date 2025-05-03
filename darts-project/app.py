@@ -1,5 +1,5 @@
 # app.py
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from darts_project import app
 from darts_project.db import get_db
 
@@ -10,6 +10,8 @@ def index():
 
 @app.route('/admin', methods=('GET', 'POST'))
 def admin():
+    if '_flashes' in session:
+        session['_flashes'].clear()
     if request.method == 'POST':
         teamname = request.form['teamname']
         error = None
