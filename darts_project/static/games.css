@@ -1,0 +1,65 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.title {
+    display: flex;
+    color: #483320;
+    background: #E1AD01;
+    font-family: 'Roboto', 'sans-serif';
+    font-size: 32px;
+    font-weight: 900;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.headerphoto {
+    display: flex;
+    background-image: url(darts_board.jpg);
+    background-size: cover;
+    height: 515px;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+}
+
+.headerphoto div {
+    display: flex;
+    flex-direction: column;
+    color: #483320;
+    background: #E1AD01;
+    font-family: 'Roboto';
+    padding: 40px;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.flash-messages {
+    position: fixed;
+    top: 32px;
+    right: 10px;
+    width: 300px;
+    z-index: 1000;
+    color: red;
+}
+
+.flash {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #fff;
+}
