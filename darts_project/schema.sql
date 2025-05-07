@@ -1,16 +1,12 @@
-DROP TABLE IF EXISTS league;
+DROP TABLE IF EXISTS seasons;
 DROP TABLE IF EXISTS games;
 DROP TABLE IF EXISTS teams;
 DROP TABLE IF EXISTS players;
 
-CREATE TABLE league (
-    league_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    team_id REFERENCES teams (team_id),
-    wins INTEGER DEFAULT 0,
-    draws INTEGER DEFAULT 0,
-    losses INTEGER DEFAULT 0,
-    games_played INTEGER DEFAULT 0,
-    points INTEGER DEFAULT 0
+CREATE TABLE seasons (
+    season_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    starting_date DATE NOT NULL,
+    end_date DATE NOT NULL
 );
 
 CREATE TABLE games (
@@ -18,10 +14,10 @@ CREATE TABLE games (
     date_time DATE NOT NULL,
     hometeam_id REFERENCES teams (team_id),
     awayteam_id REFERENCES teams (team_id),
-    hometeam_singles_score INTEGER NOT NULL,
-    awayteam_singles_score INTEGER NOT NULL,
-    hometeam_doubles_score INTEGER NOT NULL,
-    awayteam_doubles_score INTEGER NOT NULL
+    hometeam_singles_legs INTEGER NOT NULL,
+    awayteam_singles_legs INTEGER NOT NULL,
+    hometeam_doubles_legs INTEGER NOT NULL,
+    awayteam_doubles_legs INTEGER NOT NULL
 );
 
 CREATE TABLE teams (

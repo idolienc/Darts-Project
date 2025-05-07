@@ -1,0 +1,45 @@
+* {
+    padding: 0;
+    margin: 0;
+    background: #E1AD01;
+}
+
+.title {
+    display: flex;
+    color: #483320;
+    background: #E1AD01;
+    font-family: 'Roboto', 'sans-serif';
+    font-size: 32px;
+    font-weight: 900;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.headerphoto {
+    display: flex;
+    background: url(darts_board.jpg);
+    background-size: cover;
+    height: 515px;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+}
+
+.headerphoto .tablelink {
+    display: flex;
+    margin-top: 250px;
+    height: 10px;
+    font-family: 'Roboto', 'sans-serif';
+    background: #E1AD01;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+table { border-collapse: collapse; width: 60%; margin: 20px auto; color: #483320; }
+    th, td { padding: 8px 12px; border: 1px solid #ccc; text-align: center; }
+    th { background-color: #483320; color: #E1AD01; }
+    caption { font-size: 1.5em; margin-bottom: 10px; }
