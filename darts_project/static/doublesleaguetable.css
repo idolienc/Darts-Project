@@ -39,7 +39,8 @@
     border-radius: 10px;
 }
 
-table { border-collapse: collapse; width: 60%; margin: 20px auto; color: #483320; }
-    th, td { padding: 8px 12px; border: 1px solid #ccc; text-align: center; }
-    th { background-color: #483320; color: #E1AD01; }
-    caption { font-size: 1.5em; margin-bottom: 10px; }
+table { border-collapse: collapse; width: 60%; margin: 20px auto; font-family: 'Roboto'; }
+    th, td { padding: 8px 12px; border: 2px solid #ccc; text-align: center; background: white; border-color: black }
+    th:nth-child(even) { background-color: #05a300; color: black; }
+    th:nth-child(odd) { background-color: #Ff0000; color: black; }
+    caption { font-size: 1.5em; margin-bottom: 10px; background: white; border-radius: 10px; border: 4px solid black; }

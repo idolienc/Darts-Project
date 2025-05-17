@@ -7,13 +7,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='teams.css') }}">
 </head>
 <body>
+
     <div class="title">
         <p>Teams Admin Page</p>
     </div>
+
     <div class="flash-messages">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
-                <ul class=flashes>
+                <ul class="flashes">
                     {% for message in messages %}
                     <li>{{ message }}</li>
                     {% endfor %}
@@ -22,17 +24,25 @@
         {% endwith %}
         {% block body %}{% endblock %}
     </div>
-    <div class="headerphoto">
-        <div>
-            <form action="" method="post">
+
+    <div class="headerphoto"></div>
+
+    <div class="form-section"></div>
+
+    <div class="form-container">
+        <form action="" method="post">
+
             <p>
-                <label for ="teamname">Team Name:</label>
+                <label for="teamname">Team Name:</label>
                 <input type="text" id="teamname" name="teamname" />
             </p>
+
             <p class="button">
-                <button type="submit">Submit data</button>
+                <button type="submit">Submit Data</button>
             </p>
+
         </form> 
-        </div>
+    </div>
+
 </body>
 </html>

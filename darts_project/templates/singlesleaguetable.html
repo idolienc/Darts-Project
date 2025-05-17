@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ipswich Section B League</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='singlesleaguetable.css') }}">
+</head>
+<body>
+    <div class="title">
+        <p>Ipswich Section B website</p>
+    </div>
+    <div class="headerphoto">
+        <table>
+            <tr>
+                <th>Pos</th>
+                <th>Team</th>
+                <th>Played</th>
+                <th>Won</th>
+                <th>Lost</th>
+                <th>Bonus Points</th>
+                <th>Games For</th>
+                <th>Games Against</th>
+                <th>Game Diff</th>
+                <th>Points</th>
+            </tr>
+            {% for row in singles_table %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ row.teamname }}</td>
+                <td>{{ row.played }}</td>
+                <td>{{ row.won }}</td>
+                <td>{{ row.lost }}</td>
+                <td>{{ row.bonus_points}}</td>
+                <td>{{ row.games_for }}</td>
+                <td>{{ row.games_against }}</td>
+                <td>{{ row.game_diff }}</td>
+                <td>{{ row.points }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

@@ -3,44 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Players Admin Form</title>
+    <title>Players Admin Page</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='players.css') }}">
 </head>
 <body>
-    <div class="title">
-        <p>Players Admin Page</p>
-    </div>
-    <div class="flash-messages">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul class=flashes>
-                    {% for message in messages %}
-                    <li>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
-        {% block body %}{% endblock %}
-    </div>
-    <div class="headerphoto">
-        <div>
-            <form action="" method="post">
-            <p>
-                <label for ="playername">Player Name:</label>
-                <input type="text" id="playername" name="playername" />
-            </p>
-            <p>
-                <label for ="team_id">Team Name:</label>
-                <select id="team_id" name="team_id">
-                {% for team in team_data %}
-                    <option value = "{{team.team_id}}">{{team.teamname}}</option>
+
+<div class="title">
+    <p>Players Admin Page</p>
+</div>
+
+<div class="flash-messages">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for message in messages %}
+                <li>{{ message }}</li>
                 {% endfor %}
-                </select>
-            </p>
-            <p class="button">
-                <button type="submit">Submit data</button>
-            </p>
-        </form> 
-        </div>
+            </ul>
+        {% endif %}
+    {% endwith %}
+    {% block body %}{% endblock %}
+</div>
+
+<div class="headerphoto"></div>
+
+<div class="form-section"></div>
+
+<div class="form-container">
+    <form action="" method="post">
+
+        <p>
+            <label for="playername">Player Name:</label>
+            <input type="text" id="playername" name="playername" />
+        </p>
+
+        <p>
+            <label for="team_id">Team Name:</label>
+            <select id="team_id" name="team_id">
+                {% for team in team_data %}
+                <option value="{{ team.team_id }}">{{ team.teamname }}</option>
+                {% endfor %}
+            </select>
+        </p>
+
+        <p class="button">
+            <button type="submit">Submit Data</button>
+        </p>
+
+    </form>
+</div>
+
 </body>
 </html>

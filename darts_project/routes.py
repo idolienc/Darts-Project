@@ -24,7 +24,7 @@ def adminteams():
             db = get_db()
             db.execute('INSERT INTO teams (teamname) VALUES (?)', (teamname,))
             db.commit()
-            return redirect(url_for('index'))
+            return redirect(url_for('teams'))
         
     return render_template('teams.html')
 
@@ -66,7 +66,7 @@ def admingames():
             db = get_db()
             db.execute('INSERT INTO games (date_time, hometeam_id, awayteam_id, hometeam_singles_legs, awayteam_singles_legs, hometeam_doubles_legs, awayteam_doubles_legs) VALUES (?, ?, ?, ?, ?, ?, ?)', (date_time, home_teamname, away_teamname, hometeam_score_singles, away_teamscore_singles, home_teamscore_doubles, away_teamscore_doubles))
             db.commit()
-            return redirect(url_for('index'))
+            return redirect(url_for('games'))
         
     return render_template('games.html', team_data=team_data)
 
@@ -94,72 +94,87 @@ def adminplayers():
             db = get_db()
             db.execute('INSERT INTO players (team_id, playername) VALUES (?, ?)', (team_id, player_name))
             db.commit()
-            return redirect(url_for('index'))
+            return redirect(url_for('players'))
         
     return render_template('players.html', team_data=team_data)
 
-@app.route('/leaguetable')
-def leaguetable():
+@app.route('/singlesleaguetable')
+def singlesleaguetable():
     db = get_db()
     cursor = db.cursor()
     query = """
-    SELECT
-        teams.team_id,
-        teams.teamname,
+    WITH match_results AS (
+    SELECT 
+        mn.matchnight_id,
+        mn.hometeam_id,
+        mn.awayteam_id,
+        SUM(CASE WHEN l.home_score > l.away_score THEN 1 ELSE 0 END) AS home_games_won,
+        SUM(CASE WHEN l.away_score > l.home_score THEN 1 ELSE 0 END) AS away_games_won
+    FROM matchnights mn
+    JOIN games g ON g.matchnight_id = mn.matchnight_id
+    JOIN legs l ON l.game_id = g.game_id
+    WHERE g.game_type = 'singles'
+    GROUP BY mn.matchnight_id
+),
+team_summary AS (
+    SELECT 
+        t.team_id,
+        t.teamname,
+        -- Matchnights Played
+        (SELECT COUNT(*) FROM match_results mr 
+         WHERE mr.hometeam_id = t.team_id OR mr.awayteam_id = t.team_id) AS played,
 
-        COALESCE(SUM(
-            IF(games.hometeam_id = teams.team_id,
-                games.hometeam_singles_legs + games.hometeam_doubles_legs,
-                IF(games.awayteam_id = teams.team_id,
-                    games.awayteam_singles_legs + games.awayteam_doubles_legs,
-                    0)
-            )
-        ), 0) AS legs_won,
+        -- Matchnights Won
+        (SELECT COUNT(*) FROM match_results mr 
+         WHERE (mr.hometeam_id = t.team_id AND mr.home_games_won >= 5)
+            OR (mr.awayteam_id = t.team_id AND mr.away_games_won >= 5)) AS won,
 
-        COALESCE(SUM(
-            IF(
-                games.hometeam_id = teams.team_id
-                AND (games.hometeam_singles_legs + games.hometeam_doubles_legs) > (games.awayteam_singles_legs + games.awayteam_doubles_legs),
-                3,
-                IF(
-                    games.awayteam_id = teams.team_id
-                    AND (games.awayteam_singles_legs + games.awayteam_doubles_legs) > (games.hometeam_singles_legs + games.hometeam_doubles_legs),
-                    3,
-                    0
-                )
-            )
-        ), 0) AS match_points,
+        -- Matchnights Lost
+        (SELECT COUNT(*) FROM match_results mr 
+         WHERE (mr.hometeam_id = t.team_id AND mr.home_games_won < 5)
+            OR (mr.awayteam_id = t.team_id AND mr.away_games_won < 5)) AS lost,
 
-        COALESCE(SUM(
-            IF(games.hometeam_id = teams.team_id,
-                games.hometeam_singles_legs + games.hometeam_doubles_legs,
-                IF(games.awayteam_id = teams.team_id,
-                    games.awayteam_singles_legs + games.awayteam_doubles_legs,
-                    0)
-            )
-        ), 0)
-        +
-        COALESCE(SUM(
-            IF(
-                games.hometeam_id = teams.team_id
-                AND (games.hometeam_singles_legs + games.hometeam_doubles_legs) > (games.awayteam_singles_legs + games.awayteam_doubles_legs),
-                3,
-                IF(
-                    games.awayteam_id = teams.team_id
-                    AND (games.awayteam_singles_legs + games.awayteam_doubles_legs) > (games.hometeam_singles_legs + games.hometeam_doubles_legs),
-                    3,
-                    0
-                )
-            )
-        ), 0) AS total_points
+        -- Games For
+        (SELECT SUM(CASE WHEN mr.hometeam_id = t.team_id THEN mr.home_games_won
+                         WHEN mr.awayteam_id = t.team_id THEN mr.away_games_won
+                    END)
+         FROM match_results mr) AS games_for,
 
-    FROM teams
-    LEFT JOIN games ON teams.team_id = games.hometeam_id OR teams.team_id = games.awayteam_id
-    GROUP BY teams.team_id, teams.teamname
-    ORDER BY total_points DESC;
+        -- Games Against
+        (SELECT SUM(CASE WHEN mr.hometeam_id = t.team_id THEN mr.away_games_won
+                         WHEN mr.awayteam_id = t.team_id THEN mr.home_games_won
+                    END)
+         FROM match_results mr) AS games_against
+    FROM teams t
+),
+final_table AS (
+    SELECT 
+        team_id,
+        teamname,
+        played,
+        won,
+        lost,
+        games_for,
+        games_against,
+        (games_for - games_against) AS game_diff,
+        (won * 3) AS bonus_points,
+        (games_for + (won * 3)) AS points
+    FROM team_summary
+)
+SELECT * FROM final_table
+ORDER BY points DESC, game_diff DESC;
     """
 
-    cursor.execute(query)
-    rows = cursor.fetchall()
-    table_data = [dict(row) for row in rows]
-    return render_template('leaguetable.html', table=table_data)
+    singles_table = db.execute(query).fetchall()
+    return render_template('singlesleaguetable.html', singles_table=singles_table,)
+
+@app.route('/doublesleaguetable')
+def doublesleaguetable():
+    db = get_db()
+    cursor = db.cursor()
+    query = """
+    
+    """
+
+    doubles_table = db.execute(query).fetchall()
+    return render_template('doublesleaguetable.html', doubles_table=doubles_table)
