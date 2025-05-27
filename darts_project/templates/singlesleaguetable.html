@@ -12,29 +12,29 @@
     <div class="headerphoto">
         <table>
             <tr>
-                <th>Pos</th>
+                <th>Position</th>
                 <th>Team</th>
                 <th>Played</th>
                 <th>Won</th>
                 <th>Lost</th>
                 <th>Bonus Points</th>
-                <th>Games For</th>
-                <th>Games Against</th>
-                <th>Game Diff</th>
-                <th>Points</th>
+                <th>Games Won</th>
+                <th>Games Lost</th>
+                <th>Game Difference</th>
+                <th>Total Points</th>
             </tr>
-            {% for row in singles_table %}
+            {% for row in table %}
             <tr>
-                <td>{{ loop.index }}</td>
-                <td>{{ row.teamname }}</td>
-                <td>{{ row.played }}</td>
-                <td>{{ row.won }}</td>
-                <td>{{ row.lost }}</td>
-                <td>{{ row.bonus_points}}</td>
-                <td>{{ row.games_for }}</td>
-                <td>{{ row.games_against }}</td>
-                <td>{{ row.game_diff }}</td>
-                <td>{{ row.points }}</td>
+                <td>{{ row['position'] }}</td>
+                <td>{{ row['teamname'] }}</td>
+                <td>{{ row['matches_played'] }}</td>
+                <td>{{ row['matches_won'] }}</td>
+                <td>{{ row['matches_lost'] }}</td>
+                <td>{{ row['bonus_points'] }}</td>
+                <td>{{ row['games_won'] }}</td>
+                <td>{{ row['games_lost'] }}</td>
+                <td>{{ row['game_difference'] }}</td>
+                <td>{{ row['total_points'] }}</td>
             </tr>
             {% endfor %}
         </table>

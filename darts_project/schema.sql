@@ -1,8 +1,6 @@
-DROP TABLE IF EXISTS legs;
 DROP TABLE IF EXISTS games;
-DROP TABLE IF EXISTS doublesgames;
-DROP TABLE IF EXISTS players;
 DROP TABLE IF EXISTS matchnights;
+DROP TABLE IF EXISTS players;
 DROP TABLE IF EXISTS teams;
 DROP TABLE IF EXISTS seasons;
 
@@ -34,12 +32,7 @@ CREATE TABLE matchnights (
 CREATE TABLE games (
     game_id INTEGER PRIMARY KEY AUTOINCREMENT,
     matchnight_id INTEGER REFERENCES matchnights (matchnight_id),
-    game_type TEXT NOT NULL
-);
-
-CREATE TABLE legs (
-    leg_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    game_id INTEGER REFERENCES games (game_id),
+    game_type INTEGER, 
     home_player_id INTEGER REFERENCES players (player_id),
     away_player_id INTEGER REFERENCES players (player_id),
     home_score INTEGER,

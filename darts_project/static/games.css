@@ -47,7 +47,7 @@ body {
 }
 
 .form-section {
-    height: 550px;
+    height: 1100px;
     background-color: #E1AD01;
     position: relative;
     z-index: 0;
@@ -70,6 +70,28 @@ body {
 form {
     display: flex;
     flex-direction: column;
+    outline: 4px solid red;
+}
+
+form .inner-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.inner-container p {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    margin-right: 10px;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.score-sheet {
+    display: flex;
+    flex-direction: row;
 }
 
 label {
@@ -88,8 +110,12 @@ select {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    font-size: 16px;
+    font-size: 13px;
     border: 2px solid black;
+}
+
+.inner-container input[type="text"] {
+    width: 50px;
 }
 
 button[type="submit"] {
